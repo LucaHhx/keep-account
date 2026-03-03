@@ -15,6 +15,20 @@ Keep Account 是一款面向个人的极简记账应用，主打"快速录入 + 
 - **多端同步** — Web / iOS / Android / Desktop，一个账号数据同步
 - **明暗主题** — 浅色 / 深色模式自由切换
 
+## 应用截图
+
+### 桌面端 — 财务报表
+
+![桌面端报表页面](screenshots/desktop-report.png)
+
+月度收支总览、分类占比饼图、支出趋势柱状图，深色主题。
+
+### iOS 端 — 流水列表
+
+![iOS 流水列表](screenshots/ios-transactions.png)
+
+iPhone 17 Pro 上的流水列表页面，支持按类型筛选和时间过滤。
+
 ## 技术栈
 
 | 层级 | 技术 |
