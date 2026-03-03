@@ -125,6 +125,35 @@ cd deploy
 docker compose up -d
 ```
 
+## 开发框架
+
+本项目使用 [HZ-Agents](https://github.com/LucaHhx/hz-agents) 多智能体框架全流程开发，6 个 AI Agent（PM、Tech Lead、前端、后端、UI 设计师、QA）协作完成从需求到测试的完整交付。
+
+详细使用指南请查看 **[docs/hz-agents-guide.md](docs/hz-agents-guide.md)**，内容包括：
+
+- 系统架构与环境搭建
+- 六大 Agent 角色详解（职责、权限、工作流）
+- 四大命令使用指南（`/doc-review`、`/dev-team`、`/qa-test`、`/fix`）
+- 18 个 Skills 能力模块详解
+- 实战：从零构建 Keep Account 的完整步骤
+- 三层文档体系与 `docs.py` CLI 工具
+- 质量门禁机制
+- Keep Account 8 个需求迭代 + 13 个 Bug 修复的完整记录
+
+`docs/` 目录记录了整个项目的开发过程，每个需求都包含需求计划、技术设计、UI 设计稿、QA 测试截图：
+
+| 目录 | 内容 |
+|------|------|
+| `docs/1-account-system/` | 账号系统（注册/登录/JWT 鉴权） |
+| `docs/2-quick-bookkeeping/` | 3 秒记账（金额输入/分类选择） |
+| `docs/3-transaction-list/` | 流水管理（筛选/编辑/删除） |
+| `docs/4-data-reports/` | 数据报表（月度总览/饼图/趋势图） |
+| `docs/5-cloud-sync/` | 云同步与主题切换 |
+| `docs/6-multi-platform/` | 多端构建（桌面/iOS/Android） |
+| `docs/7-deploy-process/` | Docker 部署流程 |
+| `docs/8-server-info-display/` | 服务信息展示 |
+| `docs/fixes/` | 13 个 Bug 修复记录 |
+
 ## 配置
 
 后端配置文件: `server/config.yaml`
