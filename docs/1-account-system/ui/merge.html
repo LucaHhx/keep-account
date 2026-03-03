@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keep Account -- 登录/注册 (响应式)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#2563EB', light: '#DBEAFE', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8' },
+          },
+          fontFamily: { sans: ['Inter', '"PingFang SC"', '"Noto Sans SC"', 'system-ui', 'sans-serif'] },
+        },
+      },
+    }
+    // Dark mode toggle
+    function toggleDark() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center transition-colors duration-300">
+
+  <!-- Dark Mode Toggle (for preview) -->
+  <button onclick="toggleDark()" class="fixed top-4 right-4 z-50 w-10 h-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center cursor-pointer shadow-sm hover:shadow transition-all duration-200">
+    <svg class="dark:hidden" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6b7280" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    <svg class="hidden dark:block" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </button>
+
+  <!-- Login Page -->
+  <div class="w-full max-w-sm mx-auto px-6 lg:max-w-md">
+    <!-- Logo -->
+    <div class="text-center mb-10">
+      <div class="w-16 h-16 bg-blue-600 dark:bg-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md">
+        <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
+          <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-50">记账本</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">轻松记录每一笔</p>
+    </div>
+
+    <!-- Form -->
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="username">账号</label>
+        <input id="username" type="text" placeholder="请输入用户名"
+          class="w-full h-11 px-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors duration-200">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" for="password">密码</label>
+        <input id="password" type="password" placeholder="请输入密码"
+          class="w-full h-11 px-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors duration-200">
+      </div>
+    </div>
+
+    <!-- Login Button -->
+    <button class="w-full h-12 bg-blue-600 dark:bg-blue-500 text-white font-medium rounded-lg mt-6 cursor-pointer transition-colors duration-200 hover:bg-blue-700 dark:hover:bg-blue-400 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+      登录
+    </button>
+
+    <!-- Register Link -->
+    <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
+      还没有账号？<a class="text-blue-600 dark:text-blue-400 font-medium cursor-pointer hover:underline">立即注册</a>
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+luci-server
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.claude
+.codex
+
+
+# Logs
+*.log
+logs/
+
+
+# Build outputs
+server/server
+web/dist/
+web/node_modules/
+
+# Tauri
+web/src-tauri/target/
+web/src-tauri/gen/
+
+# Database
+server/data/*.db
+server/data/*.db-shm
+server/data/*.db-wal
+
+# Environment
+.env.local
+.mcp.json
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Service manager
+.pids/
+.logs/
+
+# Test coverage
+coverage/
+*.cover
+
+# Deploy sensitive files
+deploy/.env.*
+deploy/env/*.yaml
+!deploy/env/_template.yaml

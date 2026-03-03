@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keep Account -- 数据报表 (响应式三端)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#2563EB', light: '#DBEAFE', 50: '#EFF6FF', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8' },
+            income: { DEFAULT: '#16A34A', 50: '#F0FDF4', 600: '#16A34A' },
+            expense: { DEFAULT: '#EF4444', 50: '#FEF2F2' },
+            surface: { DEFAULT: '#FFFFFF', secondary: '#F9FAFB' },
+          },
+          fontFamily: { sans: ['Inter', '"PingFang SC"', '"Noto Sans SC"', 'system-ui', 'sans-serif'] },
+        },
+      },
+    }
+    function toggleDark() { document.documentElement.classList.toggle('dark'); }
+  </script>
+  <style>
+    body { font-family: 'Inter', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif; }
+    .donut-chart {
+      width: 180px; height: 180px; border-radius: 50%;
+      background: conic-gradient(
+        #2563EB 0% 35%, #F59E0B 35% 55%, #10B981 55% 70%,
+        #8B5CF6 70% 82%, #EF4444 82% 90%, #EC4899 90% 95%, #9CA3AF 95% 100%
+      );
+      position: relative;
+    }
+    .donut-chart::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110px; height: 110px; border-radius: 50%;
+    }
+    .donut-chart::after { background: white; }
+    .dark .donut-chart::after { background: #1f2937; }
+    .donut-chart-lg { width: 220px; height: 220px; }
+    .donut-chart-lg::after { width: 140px; height: 140px; }
+    .donut-center {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); z-index: 1; text-align: center;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+
+  <!-- Dark Mode Toggle -->
+  <button onclick="toggleDark()" class="fixed top-4 right-4 z-50 w-10 h-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center cursor-pointer shadow-sm hover:shadow transition-all duration-200">
+    <svg class="dark:hidden" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6b7280" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    <svg class="hidden dark:block" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </button>
+
+  <div class="flex min-h-screen">
+
+    <!-- ===== 桌面端侧边栏导航 (lg+) ===== -->
+    <nav class="hidden lg:flex flex-col w-56 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 py-6 px-3 shrink-0">
+      <div class="flex items-center gap-3 px-3 mb-8">
+        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shrink-0">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div>
+          <div class="font-semibold text-gray-900 dark:text-gray-50 text-sm">记账本</div>
+          <div class="text-xs text-gray-400">Keep Account</div>
+        </div>
+      </div>
+      <div class="space-y-1">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-150">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span class="text-sm">记账</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-150">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          <span class="text-sm">流水</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 cursor-pointer">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+          <span class="text-sm font-medium">报表</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-150">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="text-sm">我的</span>
+        </a>
+      </div>
+      <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 mx-3">
+        <div class="flex items-center gap-3 py-2">
+          <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center shrink-0">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">xiaoming</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== 主内容区 ===== -->
+    <main class="flex-1 flex flex-col min-h-screen">
+
+      <!-- 桌面端顶部标题栏 (lg+) -->
+      <header class="hidden lg:flex items-center justify-between px-8 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div>
+          <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-50">数据报表</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">了解你的收支情况</p>
+        </div>
+      </header>
+
+      <!-- 手机/平板端标题 -->
+      <div class="lg:hidden px-4 pt-14 md:pt-6 pb-2 md:px-8">
+        <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-50">报表</h1>
+      </div>
+
+      <!-- Month Picker -->
+      <div class="flex items-center justify-center gap-6 py-3 lg:py-4 lg:px-8 lg:justify-start">
+        <button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-150">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6b7280" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span class="text-base font-medium text-gray-900 dark:text-gray-50">2026年2月</span>
+        <button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-150">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6b7280" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- 可滚动内容区 -->
+      <div class="flex-1 overflow-y-auto px-4 md:px-8 lg:px-8 pb-4">
+
+        <!-- ===== 月度总览卡片: 手机3列紧凑 / 桌面3列宽敞 ===== -->
+        <div class="grid grid-cols-3 gap-3 md:gap-4 mb-5 lg:mb-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-3 md:p-5 shadow-sm border border-gray-200/60 dark:border-gray-700 text-center">
+            <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-1">收入</div>
+            <div class="text-lg md:text-2xl font-semibold text-green-600 dark:text-green-400">5,000</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-3 md:p-5 shadow-sm border border-gray-200/60 dark:border-gray-700 text-center">
+            <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-1">支出</div>
+            <div class="text-lg md:text-2xl font-semibold text-red-500">2,386</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-3 md:p-5 shadow-sm border border-gray-200/60 dark:border-gray-700 text-center">
+            <div class="text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-1">结余</div>
+            <div class="text-lg md:text-2xl font-semibold text-blue-600 dark:text-blue-400">2,614</div>
+          </div>
+        </div>
+
+        <!-- ===== 图表区: 手机单列堆叠 / 桌面双列并排 ===== -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
+
+          <!-- 分类占比 (环形图 + 列表) -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/60 dark:border-gray-700 p-4 md:p-6">
+            <h2 class="text-sm md:text-base font-medium text-gray-900 dark:text-gray-50 mb-4">支出分类</h2>
+
+            <!-- Donut Chart: 桌面端稍大 -->
+            <div class="flex justify-center mb-5">
+              <div class="donut-chart lg:donut-chart-lg">
+                <div class="donut-center">
+                  <div class="text-xs text-gray-500 dark:text-gray-400">总支出</div>
+                  <div class="text-lg lg:text-xl font-semibold text-gray-900 dark:text-gray-50">&yen;2,386</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Category List -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-blue-600"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">餐饮</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;835</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">35%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">购物</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;477</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">20%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">交通</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;358</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">15%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">娱乐</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;286</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">12%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">医疗</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;191</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">8%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-pink-500"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">日常</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;120</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">5%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+              <div class="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg px-2 py-1.5 -mx-2 transition-colors duration-150">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-3 h-3 rounded-full bg-gray-400"></div>
+                  <span class="text-sm text-gray-900 dark:text-gray-50">其他</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-gray-900 dark:text-gray-50">&yen;119</span>
+                  <span class="text-xs text-gray-400 w-10 text-right">5%</span>
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d1d5db" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 支出趋势 (柱状图) -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/60 dark:border-gray-700 p-4 md:p-6">
+            <h2 class="text-sm md:text-base font-medium text-gray-900 dark:text-gray-50 mb-4">支出趋势 (最近30天)</h2>
+
+            <!-- Bar Chart: 桌面端更高 -->
+            <div class="flex items-end gap-1 md:gap-1.5 h-40 lg:h-56">
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 30%"></div>
+                <span class="text-[10px] text-gray-400">1</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 15%"></div>
+                <span class="text-[10px] text-gray-400">2</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 50%"></div>
+                <span class="text-[10px] text-gray-400">3</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 20%"></div>
+                <span class="text-[10px] text-gray-400">4</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 55%"></div>
+                <span class="text-[10px] text-gray-400">5</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 25%"></div>
+                <span class="text-[10px] text-gray-400">6</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 10%"></div>
+                <span class="text-[10px] text-gray-400">7</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 40%"></div>
+                <span class="text-[10px] text-gray-400">8</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 15%"></div>
+                <span class="text-[10px] text-gray-400">9</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 35%"></div>
+                <span class="text-[10px] text-gray-400">10</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 20%"></div>
+                <span class="text-[10px] text-gray-400">11</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 5%"></div>
+                <span class="text-[10px] text-gray-400">12</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 45%"></div>
+                <span class="text-[10px] text-gray-400">13</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 25%"></div>
+                <span class="text-[10px] text-gray-400">14</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-400 dark:bg-blue-600 rounded-t" style="height: 70%"></div>
+                <span class="text-[10px] text-gray-400">15</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 35%"></div>
+                <span class="text-[10px] text-gray-400">16</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 20%"></div>
+                <span class="text-[10px] text-gray-400">17</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 40%"></div>
+                <span class="text-[10px] text-gray-400">18</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 10%"></div>
+                <span class="text-[10px] text-gray-400">19</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 50%"></div>
+                <span class="text-[10px] text-gray-400">20</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 30%"></div>
+                <span class="text-[10px] text-gray-400">21</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 15%"></div>
+                <span class="text-[10px] text-gray-400">22</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 45%"></div>
+                <span class="text-[10px] text-gray-400">23</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-200 dark:bg-blue-800 rounded-t" style="height: 20%"></div>
+                <span class="text-[10px] text-gray-400">24</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-500 dark:bg-blue-500 rounded-t" style="height: 85%"></div>
+                <span class="text-[10px] text-gray-400">25</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-300 dark:bg-blue-700 rounded-t" style="height: 35%"></div>
+                <span class="text-[10px] text-gray-400">26</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-400 dark:bg-blue-600 rounded-t" style="height: 60%"></div>
+                <span class="text-[10px] text-gray-400">27</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1">
+                <div class="w-full bg-blue-600 dark:bg-blue-400 rounded-t" style="height: 100%"></div>
+                <span class="text-[10px] text-gray-400">28</span>
+              </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex items-center justify-center gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
+              <div class="flex items-center gap-1.5">
+                <div class="w-2.5 h-2.5 rounded bg-blue-500"></div>
+                <span class="text-xs text-gray-500 dark:text-gray-400">每日支出</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 手机/平板底部 Tab 导航 (<lg) ===== -->
+      <div class="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 mt-auto">
+        <div class="flex items-center justify-around py-2 pb-8 md:pb-4 max-w-lg mx-auto">
+          <div class="flex flex-col items-center gap-0.5 cursor-pointer min-w-[64px]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span class="text-xs text-gray-400">记账</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 cursor-pointer min-w-[64px]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#9ca3af" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            <span class="text-xs text-gray-400">流水</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 cursor-pointer min-w-[64px]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="2"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+            <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">报表</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 cursor-pointer min-w-[64px]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#9ca3af" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="text-xs text-gray-400">我的</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

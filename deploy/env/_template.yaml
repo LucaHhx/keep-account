@@ -1,0 +1,12 @@
+# 服务器配置模板
+# 使用方法: cp _template.yaml <name>.yaml && vim <name>.yaml
+# 然后运行: ./deploy/deploy.sh <name>
+
+name: "服务器名称"
+host: 192.168.0.x
+port: 22
+user: username
+ssh_key: ~/.ssh/id_rsa
+deploy_path: ~/keep-account
+app_port: 8080
+jwt_secret: CHANGE_ME

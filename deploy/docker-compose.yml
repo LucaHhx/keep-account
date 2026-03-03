@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.frontend
+    ports:
+      - "${APP_PORT:-8080}:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
+    expose:
+      - "5723"
+    volumes:
+      - ../data:/app/data
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-keep-account-production-secret}
+    restart: unless-stopped

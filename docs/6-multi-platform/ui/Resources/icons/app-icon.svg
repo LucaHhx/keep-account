@@ -1,0 +1,32 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- 记账本 (Keep Account) 应用图标 -->
+  <!-- 背景: blue-600 (#2563EB) | 图形: white -->
+  <!-- 用途: 导出为 1024x1024 PNG 后通过 cargo tauri icon 生成全平台图标 -->
+
+  <!-- 背景 -->
+  <rect width="1024" height="1024" rx="225" fill="#2563EB"/>
+
+  <!-- 钱包主体 -->
+  <g transform="translate(200, 220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 钱包外框 -->
+    <rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/>
+
+    <!-- 钱包翻盖 -->
+    <path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/>
+
+    <!-- 钱包扣带 -->
+    <rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/>
+
+    <!-- 钱包扣 (圆形) -->
+    <circle cx="502" cy="320" r="20" fill="white" stroke="none"/>
+
+    <!-- 装饰线 - 卡片槽 -->
+    <line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/>
+  </g>
+
+  <!-- 右上角硬币装饰 -->
+  <g transform="translate(640, 140)">
+    <circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/>
+    <text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, system-ui, sans-serif">$</text>
+  </g>
+</svg>

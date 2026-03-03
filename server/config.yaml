@@ -1,0 +1,14 @@
+server:
+  port: 5723
+
+database:
+  path: "./data/keep-account.db"
+
+jwt:
+  secret: "change-me-in-production-keep-account-jwt-secret"
+  expire_days: 7
+  renew_before_days: 3.5
+
+log:
+  level: "info"
+  format: "console"

@@ -1,0 +1,15 @@
+server:
+  port: 5723
+  env: production
+
+database:
+  path: "./data/keep-account.db"
+
+jwt:
+  secret: "placeholder-will-be-overridden-by-env"
+  expire_days: 7
+  renew_before_days: 3.5
+
+log:
+  level: "info"
+  format: "json"

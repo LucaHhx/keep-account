@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>记账本 — 多端应用图标设计稿</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EB',
+            'primary-light': '#DBEAFE',
+            surface: '#FFFFFF',
+            'bg-page': '#F9FAFB',
+            'text-primary': '#111827',
+            'text-secondary': '#6B7280',
+            'text-muted': '#9CA3AF',
+            border: '#E5E7EB',
+          },
+          fontFamily: {
+            sans: ['Inter', '"PingFang SC"', '"Noto Sans SC"', '"Microsoft YaHei"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 棋盘格背景，用于展示透明度 */
+    .checkerboard {
+      background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+    /* macOS 风格圆角 */
+    .macos-icon { border-radius: 22%; }
+    /* iOS 风格圆角 */
+    .ios-icon { border-radius: 22.37%; }
+    /* Android 圆形 */
+    .android-icon { border-radius: 50%; }
+    /* Windows 无圆角 */
+    .windows-icon { border-radius: 0; }
+  </style>
+</head>
+<body class="bg-bg-page text-text-primary font-sans">
+
+  <!-- 页面标题 -->
+  <header class="bg-surface border-b border-border">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <h1 class="text-2xl font-semibold">记账本 — 应用图标设计稿</h1>
+      <p class="text-text-secondary mt-2">需求: 6-multi-platform | 多端编译与测试 | 图标资源规范</p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-8 space-y-12">
+
+    <!-- ==================== -->
+    <!-- 第一部分: 主图标 SVG -->
+    <!-- ==================== -->
+    <section>
+      <h2 class="text-xl font-semibold mb-2">1. 主图标设计</h2>
+      <p class="text-text-secondary mb-6">1024x1024 源文件，用于通过 <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">tauri icon</code> 生成全平台图标。</p>
+
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <!-- 图标大图 -->
+        <div class="bg-surface rounded-xl border border-border p-8 flex flex-col items-center">
+          <!-- SVG 图标: 钱包造型 -->
+          <svg id="app-icon" width="256" height="256" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <!-- 背景 -->
+            <rect width="1024" height="1024" rx="225" fill="#2563EB"/>
+
+            <!-- 钱包主体 -->
+            <g transform="translate(200, 220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+              <!-- 钱包外框 -->
+              <rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/>
+
+              <!-- 钱包翻盖 -->
+              <path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/>
+
+              <!-- 钱包扣带 -->
+              <rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/>
+
+              <!-- 钱包扣 (圆形) -->
+              <circle cx="502" cy="320" r="20" fill="white" stroke="none"/>
+
+              <!-- 装饰线 - 卡片槽 -->
+              <line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/>
+            </g>
+
+            <!-- 右上角硬币装饰 -->
+            <g transform="translate(640, 140)">
+              <circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/>
+              <text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text>
+            </g>
+          </svg>
+
+          <p class="text-text-muted text-sm mt-4">256px 预览（源文件 1024x1024）</p>
+        </div>
+
+        <!-- 设计说明 -->
+        <div class="flex-1 space-y-4">
+          <div class="bg-surface rounded-xl border border-border p-6">
+            <h3 class="font-semibold mb-3">设计要素</h3>
+            <ul class="space-y-2 text-sm text-text-secondary">
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg flex-shrink-0" style="background:#2563EB"></span>
+                <span><strong class="text-text-primary">背景</strong> — #2563EB (blue-600)，项目主色</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg border border-border flex-shrink-0 bg-white"></span>
+                <span><strong class="text-text-primary">图形</strong> — #FFFFFF (white)，钱包 + 硬币</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg flex-shrink-0" style="background:rgba(37,99,235,0.85)"></span>
+                <span><strong class="text-text-primary">辅助</strong> — 白色 15% 不透明度，增加层次感</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-surface rounded-xl border border-border p-6">
+            <h3 class="font-semibold mb-3">网格与安全区域</h3>
+            <div class="flex gap-4 items-center">
+              <svg width="120" height="120" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1024" height="1024" rx="225" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="4"/>
+                <!-- 安全区域 -->
+                <rect x="128" y="128" width="768" height="768" rx="48" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="12 8"/>
+                <!-- 中心线 -->
+                <line x1="512" y1="0" x2="512" y2="1024" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="8 8"/>
+                <line x1="0" y1="512" x2="1024" y2="512" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="8 8"/>
+              </svg>
+              <div class="text-sm text-text-secondary">
+                <p><span class="text-red-500">红色虚线</span> = 安全区域 (75%)</p>
+                <p class="mt-1">四周留 12.5% 边距</p>
+                <p class="mt-1">图形内容在安全区域内</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== -->
+    <!-- 第二部分: 各尺寸预览 -->
+    <!-- ==================== -->
+    <section>
+      <h2 class="text-xl font-semibold mb-2">2. 尺寸一览</h2>
+      <p class="text-text-secondary mb-6">从 <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">tauri icon</code> 生成的所有 PNG 尺寸。</p>
+
+      <div class="bg-surface rounded-xl border border-border p-6">
+        <div class="flex flex-wrap items-end gap-6">
+          <!-- 各尺寸用缩放的 SVG 展示 -->
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:40px;height:40px;">
+              <svg width="16" height="16" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">16px</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:48px;height:48px;">
+              <svg width="32" height="32" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">32px</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:60px;height:60px;">
+              <svg width="48" height="48" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600">$</text></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">48px</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:80px;height:80px;">
+              <svg width="64" height="64" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600">$</text></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">64px</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:144px;height:144px;">
+              <svg width="128" height="128" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600">$</text></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">128px</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <div class="checkerboard rounded flex items-center justify-center" style="width:272px;height:272px;">
+              <svg width="256" height="256" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600">$</text></g></svg>
+            </div>
+            <span class="text-xs text-text-muted">256px (128@2x)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 第三部分: 各平台展示效果 -->
+    <!-- ========================= -->
+    <section>
+      <h2 class="text-xl font-semibold mb-2">3. 各平台展示效果</h2>
+      <p class="text-text-secondary mb-6">图标在不同操作系统中的裁切和展示方式。</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- macOS -->
+        <div class="bg-surface rounded-xl border border-border p-6">
+          <h3 class="font-semibold mb-4 flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            macOS
+          </h3>
+          <!-- macOS Dock 模拟 -->
+          <div class="bg-gray-100 rounded-2xl p-6 flex flex-col items-center">
+            <p class="text-xs text-text-muted mb-4">Dock 图标</p>
+            <div class="bg-gray-200/50 backdrop-blur rounded-2xl px-4 py-2 flex items-end gap-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-300"></div>
+              <div class="w-12 h-12 rounded-xl bg-gray-300"></div>
+              <div class="flex flex-col items-center">
+                <svg class="macos-icon" width="56" height="56" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+                <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1"></div>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-gray-300"></div>
+              <div class="w-12 h-12 rounded-xl bg-gray-300"></div>
+            </div>
+            <p class="text-xs text-text-muted mt-3">圆角: 22% | 格式: .icns</p>
+          </div>
+        </div>
+
+        <!-- Windows -->
+        <div class="bg-surface rounded-xl border border-border p-6">
+          <h3 class="font-semibold mb-4 flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Windows
+          </h3>
+          <!-- Windows 任务栏模拟 -->
+          <div class="bg-gray-100 rounded-2xl p-6 flex flex-col items-center">
+            <p class="text-xs text-text-muted mb-4">任务栏图标</p>
+            <div class="bg-gray-800 rounded-lg px-4 py-1.5 flex items-center gap-3">
+              <div class="w-6 h-6 rounded bg-gray-600"></div>
+              <div class="w-6 h-6 rounded bg-gray-600"></div>
+              <svg class="windows-icon" width="24" height="24" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+              <div class="w-6 h-6 rounded bg-gray-600"></div>
+              <div class="w-6 h-6 rounded bg-gray-600"></div>
+            </div>
+            <p class="text-xs text-text-muted mt-3">无圆角 | 格式: .ico</p>
+          </div>
+        </div>
+
+        <!-- iOS -->
+        <div class="bg-surface rounded-xl border border-border p-6">
+          <h3 class="font-semibold mb-4 flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12" y2="18.01" stroke-width="3" stroke-linecap="round"/></svg>
+            iOS
+          </h3>
+          <!-- iOS 主屏幕模拟 -->
+          <div class="bg-gray-100 rounded-2xl p-6 flex flex-col items-center">
+            <p class="text-xs text-text-muted mb-4">主屏幕图标</p>
+            <div class="grid grid-cols-4 gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="flex flex-col items-center gap-1">
+                <svg class="ios-icon" width="56" height="56" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+                <span class="text-[10px] text-text-secondary">记账本</span>
+              </div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-2xl bg-gray-300"></div>
+            </div>
+            <p class="text-xs text-text-muted mt-3">圆角: 22.37% (系统裁切) | 无透明背景</p>
+          </div>
+        </div>
+
+        <!-- Android -->
+        <div class="bg-surface rounded-xl border border-border p-6">
+          <h3 class="font-semibold mb-4 flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12" y2="18.01" stroke-width="3" stroke-linecap="round"/></svg>
+            Android
+          </h3>
+          <!-- Android 主屏幕模拟 -->
+          <div class="bg-gray-100 rounded-2xl p-6 flex flex-col items-center">
+            <p class="text-xs text-text-muted mb-4">主屏幕图标 (Adaptive Icon)</p>
+            <div class="grid grid-cols-4 gap-4">
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="flex flex-col items-center gap-1">
+                <svg class="android-icon" width="56" height="56" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+                <span class="text-[10px] text-text-secondary">记账本</span>
+              </div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+              <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+            </div>
+            <p class="text-xs text-text-muted mt-3">圆形裁切 (Adaptive Icon) | 前景+背景双层</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- 第四部分: Windows Store 磁贴 -->
+    <!-- ============================= -->
+    <section>
+      <h2 class="text-xl font-semibold mb-2">4. Windows Store 磁贴尺寸</h2>
+      <p class="text-text-secondary mb-6">Windows Store 所需的各种 Square Logo 尺寸。</p>
+
+      <div class="bg-surface rounded-xl border border-border p-6">
+        <div class="flex flex-wrap items-end gap-6">
+          <div class="flex flex-col items-center gap-2">
+            <svg width="30" height="30" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/></g></svg>
+            <span class="text-xs text-text-muted">30x30</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <svg width="44" height="44" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/></g></svg>
+            <span class="text-xs text-text-muted">44x44</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <svg width="71" height="71" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/></g></svg>
+            <span class="text-xs text-text-muted">71x71</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <svg width="107" height="107" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+            <span class="text-xs text-text-muted">107x107</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <svg width="150" height="150" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/><rect x="420" y="260" width="164" height="120" rx="24" fill="white" fill-opacity="0.15" stroke="white"/><circle cx="502" cy="320" r="20" fill="white" stroke="none"/><line x1="100" y1="200" x2="320" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="24"/></g><g transform="translate(640,140)"><circle cx="80" cy="80" r="72" fill="white" fill-opacity="0.2" stroke="white" stroke-width="32"/><text x="80" y="98" text-anchor="middle" fill="white" font-size="80" font-weight="600" font-family="Inter, sans-serif">$</text></g></svg>
+            <span class="text-xs text-text-muted">150x150</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <svg width="50" height="50" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="225" fill="#2563EB"/><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/></g></svg>
+            <span class="text-xs text-text-muted">StoreLogo 50x50</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- 第五部分: 文件清单与生成命令 -->
+    <!-- ================================= -->
+    <section>
+      <h2 class="text-xl font-semibold mb-2">5. 完整文件清单</h2>
+      <p class="text-text-secondary mb-6">通过 <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm">cargo tauri icon</code> 命令从 1024x1024 PNG 自动生成。</p>
+
+      <div class="bg-surface rounded-xl border border-border overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 border-b border-border">
+              <th class="text-left px-4 py-3 font-semibold">文件名</th>
+              <th class="text-left px-4 py-3 font-semibold">尺寸</th>
+              <th class="text-left px-4 py-3 font-semibold">平台</th>
+              <th class="text-left px-4 py-3 font-semibold">用途</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border">
+            <tr><td class="px-4 py-2 font-mono text-xs">icon.png</td><td class="px-4 py-2">512x512</td><td class="px-4 py-2">通用</td><td class="px-4 py-2 text-text-secondary">Linux / 通用图标</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">32x32.png</td><td class="px-4 py-2">32x32</td><td class="px-4 py-2">通用</td><td class="px-4 py-2 text-text-secondary">小图标 / 收藏图标</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">128x128.png</td><td class="px-4 py-2">128x128</td><td class="px-4 py-2">通用</td><td class="px-4 py-2 text-text-secondary">标准图标</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">128x128@2x.png</td><td class="px-4 py-2">256x256</td><td class="px-4 py-2">通用</td><td class="px-4 py-2 text-text-secondary">Retina 标准图标</td></tr>
+            <tr class="bg-blue-50/50"><td class="px-4 py-2 font-mono text-xs">icon.icns</td><td class="px-4 py-2">多尺寸</td><td class="px-4 py-2 font-semibold">macOS</td><td class="px-4 py-2 text-text-secondary">macOS 应用图标</td></tr>
+            <tr class="bg-blue-50/50"><td class="px-4 py-2 font-mono text-xs">icon.ico</td><td class="px-4 py-2">多尺寸</td><td class="px-4 py-2 font-semibold">Windows</td><td class="px-4 py-2 text-text-secondary">Windows 应用图标</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square30x30Logo.png</td><td class="px-4 py-2">30x30</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">小磁贴</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square44x44Logo.png</td><td class="px-4 py-2">44x44</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">应用列表</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square71x71Logo.png</td><td class="px-4 py-2">71x71</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">中磁贴</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square89x89Logo.png</td><td class="px-4 py-2">89x89</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">中磁贴 @1.25x</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square107x107Logo.png</td><td class="px-4 py-2">107x107</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">中磁贴 @1.5x</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square142x142Logo.png</td><td class="px-4 py-2">142x142</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">大磁贴</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square150x150Logo.png</td><td class="px-4 py-2">150x150</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">大磁贴 @1x</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square284x284Logo.png</td><td class="px-4 py-2">284x284</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">大磁贴 @2x</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">Square310x310Logo.png</td><td class="px-4 py-2">310x310</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">超大磁贴</td></tr>
+            <tr><td class="px-4 py-2 font-mono text-xs">StoreLogo.png</td><td class="px-4 py-2">50x50</td><td class="px-4 py-2">Windows</td><td class="px-4 py-2 text-text-secondary">商店列表</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 生成命令 -->
+      <div class="mt-6 bg-gray-900 rounded-xl p-6 text-gray-100 font-mono text-sm">
+        <p class="text-gray-400 mb-2"># 生成全平台图标的命令</p>
+        <p>cd src-tauri</p>
+        <p>cargo tauri icon ../docs/6-multi-platform/ui/Resources/icons/icon-source-1024.png</p>
+        <p class="text-gray-400 mt-4"># iOS / Android 需要先初始化</p>
+        <p>cargo tauri ios init</p>
+        <p>cargo tauri android init</p>
+        <p>cargo tauri icon ../docs/6-multi-platform/ui/Resources/icons/icon-source-1024.png</p>
+      </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- 第六部分: 品牌一致性说明 -->
+    <!-- ========================= -->
+    <section class="pb-12">
+      <h2 class="text-xl font-semibold mb-2">6. 品牌一致性</h2>
+      <p class="text-text-secondary mb-6">图标与应用内设计系统的关系。</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-surface rounded-xl border border-border p-6 text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-primary flex items-center justify-center mb-3">
+            <svg width="32" height="32" viewBox="0 0 1024 1024"><g transform="translate(200,220)" fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="120" width="544" height="400" rx="48" fill="white" fill-opacity="0.15" stroke="white"/><path d="M40 240 L40 168 C40 100 80 60 160 60 L464 60 C544 60 584 100 584 168 L584 240" fill="none" stroke="white"/></g></svg>
+          </div>
+          <h3 class="font-semibold mb-1">应用图标</h3>
+          <p class="text-sm text-text-secondary">blue-600 + white</p>
+          <p class="text-xs text-text-muted mt-1">#2563EB</p>
+        </div>
+        <div class="bg-surface rounded-xl border border-border p-6 text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-primary flex items-center justify-center mb-3">
+            <span class="text-white text-lg font-semibold">Ab</span>
+          </div>
+          <h3 class="font-semibold mb-1">主操作按钮</h3>
+          <p class="text-sm text-text-secondary">blue-600 + white</p>
+          <p class="text-xs text-text-muted mt-1">与图标同色</p>
+        </div>
+        <div class="bg-surface rounded-xl border border-border p-6 text-center">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-primary-light flex items-center justify-center mb-3">
+            <span class="text-primary text-lg font-semibold">Tab</span>
+          </div>
+          <h3 class="font-semibold mb-1">导航激活态</h3>
+          <p class="text-sm text-text-secondary">blue-100 + blue-600</p>
+          <p class="text-xs text-text-muted mt-1">图标色的延伸</p>
+        </div>
+      </div>
+
+      <!-- 注释: 交互说明 -->
+      <!-- 图标设计与应用内 UI 共享 Primary 色 (#2563EB)，保证品牌视觉一致性 -->
+      <!-- 用户从桌面/主屏幕点击图标进入应用时，蓝色品牌色贯穿始终 -->
+    </section>
+
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="border-t border-border bg-surface">
+    <div class="max-w-6xl mx-auto px-6 py-6 text-sm text-text-muted">
+      <p>记账本 (Keep Account) | 需求 6-multi-platform | UI 设计稿 | 2026-03-02</p>
+      <p class="mt-1">图标源文件需人工导出 SVG 为 1024x1024 PNG 后使用 <code>cargo tauri icon</code> 生成全平台资源</p>
+    </div>
+  </footer>
+
+</body>
+</html>

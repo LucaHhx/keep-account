@@ -1,0 +1,91 @@
+/* Keep Account - Design Tokens (CSS Variables) */
+/* 前端可直接引入此文件作为 CSS 变量基础 */
+
+:root {
+  /* Colors - Primary */
+  --color-primary: #2563EB;
+  --color-primary-light: #DBEAFE;
+  --color-primary-hover: #1D4ED8;
+
+  /* Colors - Semantic */
+  --color-income: #16A34A;
+  --color-expense: #EF4444;
+  --color-transfer: #6B7280;
+  --color-warning: #F59E0B;
+  --color-success: #16A34A;
+  --color-error: #EF4444;
+
+  /* Colors - Neutral (Light Mode) */
+  --color-bg: #F9FAFB;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+
+  /* Chart Colors */
+  --chart-1: #2563EB;
+  --chart-2: #F59E0B;
+  --chart-3: #10B981;
+  --chart-4: #8B5CF6;
+  --chart-5: #EF4444;
+  --chart-6: #EC4899;
+  --chart-7: #06B6D4;
+  --chart-8: #F97316;
+
+  /* Typography */
+  --font-sans: 'Inter', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-size-display: 3rem;
+  --font-size-h1: 1.5rem;
+  --font-size-h2: 1.25rem;
+  --font-size-h3: 1rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-caption: 0.75rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+}
+
+/* Dark Mode */
+.dark {
+  --color-primary: #3B82F6;
+  --color-primary-light: #1E3A5F;
+  --color-primary-hover: #60A5FA;
+
+  --color-income: #22C55E;
+  --color-expense: #F87171;
+  --color-transfer: #9CA3AF;
+
+  --color-bg: #111827;
+  --color-surface: #1F2937;
+  --color-surface-elevated: #374151;
+  --color-border: #374151;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-text-muted: #6B7280;
+}
